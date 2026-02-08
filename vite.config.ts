@@ -1,0 +1,19 @@
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+    'process.env.GENESYS_CLIENT_ID': JSON.stringify(process.env.GENESYS_CLIENT_ID),
+    'process.env.GENESYS_CLIENT_SECRET': JSON.stringify(process.env.GENESYS_CLIENT_SECRET)
+  },
+  server: {
+    port: 3000
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true
+  }
+});

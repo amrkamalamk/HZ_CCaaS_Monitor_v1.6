@@ -1,0 +1,5 @@
+{
+  "name": "Mawsool",
+  "description": "Real-time MOS (Mean Opinion Score) monitoring dashboard for Genesys Cloud UAE (horizonscope-cx2), featuring automated alerts and AI-driven quality analysis.",
+  "requestFramePermissions": []
+}
