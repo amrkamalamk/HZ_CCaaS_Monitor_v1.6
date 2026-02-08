@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import * as XLSX from 'https://esm.sh/xlsx';
+import * as XLSX from 'xlsx';
 
 interface ForecastInterval {
   hour: number;
