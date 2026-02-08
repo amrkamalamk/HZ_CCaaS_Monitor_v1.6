@@ -1,8 +1,7 @@
 import React from 'react';
 import { 
   XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
-  ValueType
+  ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell 
 } from 'recharts';
 import { UnifiedDataPoint } from '../types';
 
@@ -49,34 +48,4 @@ const MOSChart: React.FC<Props> = ({ data, threshold }) => {
               backgroundColor: tooltipBgColor,
               color: tooltipTextColor
             }}
-            labelStyle={{ color: tooltipTextColor, fontWeight: 'bold' }}
-            itemStyle={{ color: tooltipTextColor }}
-            formatter={(value: ValueType) => [
-              typeof value === 'number' ? value.toFixed(2) : 'No Telemetry',
-              'MOS Score'
-            ]}
-          />
-          <ReferenceLine 
-            y={threshold} 
-            stroke="#f43f5e" 
-            strokeDasharray="4 4" 
-            strokeWidth={1}
-            label={{ position: 'right', value: `Goal ${threshold}`, fill: '#f43f5e', fontSize: 9, fontWeight: 'bold' }} 
-          />
-          <Bar dataKey="mos" radius={[4, 4, 0, 0]} barSize={12}>
-            {data.map((entry, index) => {
-              const val = entry.mos;
-              if (val === null || val === undefined) return <Cell key={`cell-${index}`} fill="transparent" />;
-              const color = val < 4.3 ? '#f43f5e' :
-                            val < 4.7 ? '#f59e0b' :
-                            '#10b981';
-              return <Cell key={`cell-${index}`} fill={color} />;
-            })}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
-
-export default MOSChart;
+            labelStyle={{ color:
