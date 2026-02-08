@@ -1,5 +1,9 @@
-'use client';
-import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell } from 'recharts';
+import React from 'react';
+import { 
+  XAxis, YAxis, CartesianGrid, Tooltip, 
+  ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
+  TooltipProps
+} from 'recharts';
 import { UnifiedDataPoint } from '../types';
 
 interface Props {
@@ -7,7 +11,7 @@ interface Props {
   threshold: number;
 }
 
-export default function MOSChart({ data, threshold }: Props) {
+const MOSChart: React.FC<Props> = ({ data, threshold }) => {
   const tooltipTextColor = '#0f172a';
   const tooltipBgColor = '#ffffff';
 
@@ -16,9 +20,9 @@ export default function MOSChart({ data, threshold }: Props) {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 50 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-          <XAxis
-            dataKey="timestamp"
-            stroke="#94a3b8"
+          <XAxis 
+            dataKey="timestamp" 
+            stroke="#94a3b8" 
             fontSize={10}
             tickLine={false}
             axisLine={false}
@@ -27,9 +31,9 @@ export default function MOSChart({ data, threshold }: Props) {
             textAnchor="end"
             height={70}
           />
-          <YAxis
-            domain={[0, 5]}
-            stroke="#94a3b8"
+          <YAxis 
+            domain={[0, 5]} 
+            stroke="#94a3b8" 
             fontSize={10}
             tickLine={false}
             axisLine={false}
@@ -47,28 +51,36 @@ export default function MOSChart({ data, threshold }: Props) {
             }}
             labelStyle={{ color: tooltipTextColor, fontWeight: 'bold' }}
             itemStyle={{ color: tooltipTextColor }}
-            formatter={(value: number | string | undefined) => [
-              typeof value === 'number' ? value.toFixed(2) : 'No Telemetry',
-              'MOS Score',
-            ]}
+            formatter={(value: number | string | undefined) =>
+              [`${typeof value === 'number' ? value.toFixed(2) : 'No Telemetry'}`, 'MOS Score'] as [string, string]
+            }
           />
-          <ReferenceLine
-            y={threshold}
-            stroke="#f43f5e"
-            strokeDasharray="4 4"
+          <ReferenceLine 
+            y={threshold} 
+            stroke="#f43f5e" 
+            strokeDasharray="4 4" 
             strokeWidth={1}
-            label={{ position: 'right', value: `Goal ${threshold}`, fill: '#f43f5e', fontSize: 9, fontWeight: 'bold' }}
+            label={{ position: 'right', value: `Goal ${threshold}`, fill: '#f43f5e', fontSize: 9, fontWeight: 'bold' }} 
           />
           <Bar dataKey="mos" radius={[4, 4, 0, 0]} barSize={12}>
             {data.map((entry, index) => {
               const val = entry.mos;
-              if (val == null) return <Cell key={index} fill="transparent" />;
-              const color = val < 4.3 ? '#f43f5e' : val < 4.7 ? '#f59e0b' : '#10b981';
-              return <Cell key={index} fill={color} />;
+              if (val === null || val === undefined) return <Cell key={`cell-${index}`} fill="transparent" />;
+              const color = val < 4.3 ? '#f43f5e' :
+                            val < 4.7 ? '#f59e0b' :
+                            '#10b981';
+              return (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={color} 
+                />
+              );
             })}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default MOSChart;
