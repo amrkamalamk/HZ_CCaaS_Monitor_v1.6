@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { 
   XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell 
+  ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
+  ValueType
 } from 'recharts';
 import { UnifiedDataPoint } from '../types';
 
@@ -37,7 +37,7 @@ const MOSChart: React.FC<Props> = ({ data, threshold }) => {
             fontSize={10}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => value.toFixed(1)}
+            tickFormatter={(value) => typeof value === 'number' ? value.toFixed(1) : ''}
           />
           <Tooltip 
             cursor={{fill: '#f1f5f9'}}
@@ -51,7 +51,10 @@ const MOSChart: React.FC<Props> = ({ data, threshold }) => {
             }}
             labelStyle={{ color: tooltipTextColor, fontWeight: 'bold' }}
             itemStyle={{ color: tooltipTextColor }}
-            formatter={(value: number | null) => [value ? value.toFixed(2) : 'No Telemetry', 'MOS Score']}
+            formatter={(value: ValueType) => [
+              typeof value === 'number' ? value.toFixed(2) : 'No Telemetry',
+              'MOS Score'
+            ]}
           />
           <ReferenceLine 
             y={threshold} 
@@ -67,12 +70,7 @@ const MOSChart: React.FC<Props> = ({ data, threshold }) => {
               const color = val < 4.3 ? '#f43f5e' :
                             val < 4.7 ? '#f59e0b' :
                             '#10b981';
-              return (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={color} 
-                />
-              );
+              return <Cell key={`cell-${index}`} fill={color} />;
             })}
           </Bar>
         </BarChart>
